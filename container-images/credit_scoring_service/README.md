@@ -1,24 +1,35 @@
-# 🪙 Microservicio de Scoring de Crédito con MLP y FastAPI
+# 🪙 🏦 Credit Scoring Inference API
 
-Este proyecto ofrece un microservicio de inferencia listo para producción, empaquetado en Docker. Utiliza un modelo de Perceptrón Multicapa (MLP) entrenado con PyTorch para evaluar el riesgo crediticio de un solicitante en tiempo real.
+Este microservicio proporciona una API RESTful para predecir el riesgo crediticio de un solicitante utilizando una red neuronal Perceptrón Multicapa (MLP) construida con PyTorch.
 
-## 🎯 Características Principales
+Este proyecto es parte del curso de Deep Learning de la plataforma [inGeniia.co](https://www.ingeniia.co), donde enseñamos a llevar modelos desde la teoría hasta la producción en la nube.
 
-- API Moderna: Construido con FastAPI, que proporciona alta performance y documentación interactiva automática (Swagger UI).
+---
 
-- Modelo de Deep Learning: Utiliza PyTorch para las predicciones, permitiendo arquitecturas de redes neuronales complejas.
+## 📋 Descripción
+El servicio recibe datos demográficos y financieros de un solicitante, los procesa utilizando un pipeline de transformación (scikit-learn) y los pasa a través de un modelo MLP entrenado para clasificación binaria.
 
-- Listo para Desplegar: Totalmente dockerizado, garantizando un entorno consistente y un despliegue sencillo.
+### Características Principales
 
-- Preprocesamiento Integrado: El pipeline de preprocesamiento de scikit-learn está integrado, asegurando que los datos de inferencia se traten igual que en el entrenamiento.
+- API Rápida: Construida sobre FastAPI para alto rendimiento.
 
-## 🏁 Guía de Construcción
+- Validación de Tipos: Uso de Pydantic para garantizar que los datos de entrada cumplan con los esquemas requeridos (validación de enums para sexo, vivienda, propósito, etc.).
+
+- Inferencia Deep Learning: Modelo MLP (Multi-Layer Perceptron) optimizado con capas ocultas, Dropout y Batch Normalization.
+
+- Arquitectura Modular: Separación clara entre la lógica del servidor (server) y la lógica de inferencia (inference).
+
+- Container-Ready: Dockerizado y optimizado para despliegue en Google Cloud Run.
+
+---
+
+## 🚀 Guía de Ejecución
 
 ### Paso 1: Preparación de Artefactos
 - Asegúrate de tener los artefactos del modelo (`.pt`) y el preprocesador (`.joblib`) en la carpeta `python/credit_scoring/models/`.
 
 ### Paso 2: Construcción de la Imagen Docker
-- Navega al directorio raíz `genia_services/` y ejecuta el siguiente comando para construir la imagen.
+- Navega al directorio raíz `ingeniia_services/` y ejecuta el siguiente comando para construir la imagen.
 
 ```bash
 docker build -t ingeniia/credit-scoring-mlp:1.0 -f container-images/credit_scoring/Dockerfile .
@@ -36,6 +47,8 @@ docker build -t ingeniia/credit-scoring-mlp:1.0 -f container-images/credit_scori
 ```bash
 http://localhost:8000/docs
 ```
+
+---
 
 ## 📝 Cómo Usar la API (¡Haciendo una Predicción!)
 El endpoint principal es /mlp_demo. Puedes enviarle una solicitud POST con los datos del solicitante en formato JSON.
@@ -84,6 +97,7 @@ Si todo va bien, recibirás una respuesta como esta, indicando la predicción (g
     }
     ```
 
+---
 
 ## ⚙️ Gestión del Contenedor
 Aquí tienes algunos comandos útiles para administrar el contenedor Docker.
@@ -108,3 +122,49 @@ Aquí tienes algunos comandos útiles para administrar el contenedor Docker.
     ```bash
     docker stop credit-scoring-service && docker rm credit-scoring-service
     ```
+
+---
+
+## ☁️ Despliegue en Google Cloud Platform (GCP)
+
+Este servicio está diseñado para una arquitectura Serverless utilizando Cloud Run. El flujo de CI/CD se maneja mediante Cloud Build.
+
+### Flujo de Despliegue (Cloud Build)
+
+El archivo `ops/cloudbuild-credit_scoring_service.yaml` gestiona los siguientes pasos automáticamente:
+
+1. **Build:** Construye la imagen Docker utilizando el `Dockerfile` optimizado (multi-stage).
+2. **Push:** Sube la imagen a `Artifact Registry` (us-central1-docker.pkg.dev/...).
+3. **Deploy:** Despliega la nueva imagen en Cloud Run como un servicio gestionado.
+
+### Configuración del Despliegue
+
+- **Región:** `us-central1`
+- **Autenticación:** `--allow-unauthenticated`
+- **Memoria:** `1Gi`
+- **Puerto:** `8080`
+
+---
+
+## 📄 Licencia y Atribución
+Este proyecto se distribuye bajo la Licencia MIT, pero con una cláusula adicional de atribución educativa.
+**Copyright (c) 2024 inGeniia.co**
+
+Se concede permiso, de forma gratuita, a cualquier persona que obtenga una copia de este software y los archivos de documentación asociados, para tratar el Software sin restricciones, incluido el uso, copia, modificación, fusión, publicación y distribución.
+
+### Condición de uso: 
+Si utilizas este código, modelos o arquitectura en tu propio proyecto, investigación o producto comercial, debes incluir explícitamente la siguiente mención en tu documentación, README o sección de "Acerca de":
+
+```text
+Este software implementa arquitecturas de Deep Learning basadas en los materiales educativos de inGeniia.co. 
+El modelo original de Credit Scoring fue desarrollado por el equipo de inGeniia.
+```
+
+---
+
+**¿Te interesa aprender más?** 
+
+Visita [www.inGeniia.co](https://www.ingeniia.co) para acceder al código fuente completo, los videos explicativos y los mapas mentales de esta y otras redes neuronales.
+
+
+
