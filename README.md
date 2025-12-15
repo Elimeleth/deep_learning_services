@@ -26,7 +26,32 @@ deep_learning_services/
 ```
 
 ## 🤖 Servicios Disponibles y Datasets
-Cada servicio en este repositorio corresponde a un módulo práctico de nuestra plataforma. Aquí tienes los enlaces directos a los datos que usamos para entrenar estos modelos:
+Cada servicio en este repositorio corresponde a un módulo práctico de nuestra plataforma.
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <a href="python/credit_scoring/README.md">
+        <img src="assets/card-credit-scoring.png" alt="Credit Scoring Service" width="420">
+      </a>
+      <br/>
+      <b>🪙 Credit Scoring (MLP)</b><br/>
+      <a href="python/credit_scoring/README.md">Ver código</a>
+    </td>
+    <td align="center" width="50%">
+      <a href="python/xrays_evaluation/README.md">
+        <img src="assets/card-xrays-evaluation.png" alt="X-Rays Evaluation Service" width="420">
+      </a>
+      <br/>
+      <b>🩻 X-Rays Evaluation (CNN + YOLO + GradCAM)</b><br/>
+      <a href="python/xrays_evaluation/README.md">Ver código</a>
+    </td>
+  </tr>
+</table>
+
+### 💾 Datasets
+Aquí tienes los enlaces directos a los datos que usamos en HuggingFace para entrenar estos modelos:
+
 | Servicio / Modelo         | Tipo de Red          | Dataset (HuggingFace) 💾                                         | Descripción                                                               |
 |---------------------------|----------------------|------------------------------------------------------------------|---------------------------------------------------------------------------|
 | Credit Scoring            | MLP (Perceptrón)     | [German Credit Risk](https://huggingface.co/datasets/inGeniia/german-credit-risk_credit-scoring_mlp)     | Predicción de puntajes crediticios basada en datos tabulares.            |
